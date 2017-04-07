@@ -12,11 +12,17 @@ public class Connector extends Object implements Cloneable {
 
     public Connector(Box childBox, Point2D offsetFromParentBox) {
         this.childBox = childBox;
+        this.childBox.setConnectorToParent(this);
         this.offsetFromParentBox = offsetFromParentBox;
+        this.parentBox = null;
     }//end Constructor
 
-    public Connector clone() {
-        return new Connector(this.childBox, this.offsetFromParentBox);
+    public Connector clone() throws CloneNotSupportedException {
+        Connector cloned = (Connector)super.clone();
+        cloned.offsetFromParentBox = new Point2D(offsetFromParentBox.getX(), offsetFromParentBox.getY());
+        cloned.childBox = (Box)this.childBox.clone();
+        cloned.childBox.setConnectorToParent(cloned);
+        return cloned;
     }//end clone
 
     public Box getChildBox() {
@@ -43,11 +49,5 @@ public class Connector extends Object implements Cloneable {
     public void setParentBox(Box parentBox) {
         this.parentBox = parentBox;
     }//end setParentBox
-
-    public String toString() {
-        String str = "";
-
-        return str;
-    }//end toString
 
 }//end Class

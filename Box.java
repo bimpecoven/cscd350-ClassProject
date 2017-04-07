@@ -1,6 +1,5 @@
 import javafx.geometry.Point2D;
-
-import java.awt.geom.Dimension2D;
+import javafx.geometry.Dimension2D;
 import java.util.*;
 import java.util.List;
 
@@ -8,7 +7,7 @@ import java.util.List;
  * Created by: bimpecoven
  * Created on: 4/4/17.
  */
-public class Box {
+public class Box implements Cloneable {
 
     private String id;
     private Dimension2D size;
@@ -17,39 +16,64 @@ public class Box {
     private Connector parentConnector;
 
     public Box(String id, Dimension2D size) {
+        this.parentConnector = null;
         this.id = id;
         this.size = size;
         this.isRoot = false;
-        childConnectors = new ArrayList<Connector>();
+        this.childConnectors = new ArrayList<Connector>();
     }//end constructor - NON ROOT
 
     public Box(String id, Dimension2D size, boolean isRoot) {
+        this.parentConnector = null;
         this.id = id;
         this.size = size;
         this.isRoot = isRoot;
-        childConnectors = new ArrayList<Connector>();
+        this.childConnectors = new ArrayList<Connector>();
     }//end constructor - ROOT
 
-    public Box clone() {
-        return new Box(this.id, this.size, this.isRoot);
+    public Box clone() throws CloneNotSupportedException {
+        Box cloned = (Box)super.clone();
+
+        cloned.id = new String(this.id);
+        cloned.size = new Dimension2D(this.size.getWidth(), this.size.getHeight());
+        cloned.isRoot = this.isRoot;
+        cloned.childConnectors = new ArrayList<Connector>();
+
+        for (int x = 0; x < this.childConnectors.size(); x++) {
+            Connector temp = this.childConnectors.get(x).clone();
+            cloned.connectChild(temp);
+        }//end for
+
+        return cloned;
     }//end clone
 
     public void connectChild(Connector connector) {
         this.childConnectors.add(connector);
+        connector.setParentBox(this);
     }//end connectChild
 
     public Point2D getAbsoluteCenterPosition() {
-
+        if (this.isRoot) {
+            return new Point2D(0, 0);
+        }//end if
+        else {
+            Point2D currentOffset = this.getConnectorToParent().getOffsetFromParentBox();
+            Point2D parentsOffset = this.parentConnector.getParentBox().getAbsoluteCenterPosition();
+            Point2D totalOffset = currentOffset.add(parentsOffset);
+            return totalOffset;
+        }//end else
     }//end getAbsoluteCenterPosition
 
     public int getChildBoxCount() {
-        int count = 0;
-
-        return count;
+        return getChildBoxes().size();
     }//end getChildBoxCount
 
     public List<Box> getChildBoxes() {
-
+        List<Box> childBoxes = new ArrayList<Box>();
+        for (Connector c : this.childConnectors ) {
+            childBoxes.add(c.getChildBox());
+        }//end for
+        return childBoxes;
     }//end getChildBoxes
 
     public List<Connector> getConnectorsToChildren() {
@@ -61,13 +85,18 @@ public class Box {
     }//end getConnectorToParent
 
     public int getDescendantBoxCount() {
-        int count = 0;
-
-        return count;
+        return getDescendantBoxes().size();
     }//end getDescendantBoxCount
 
     public List<Box> getDescendantBoxes() {
-
+        List<Box> descendantBoxes = new ArrayList<Box>();
+        for (Connector c : childConnectors) {
+            descendantBoxes.add(c.getChildBox());
+            if (c.getChildBox().getChildBoxCount() > 0) {
+                descendantBoxes.addAll(c.getChildBox().getDescendantBoxes());
+            }//end if
+        }//end for
+        return descendantBoxes;
     }//end getDescendantBoxes
 
     public String getID() {
@@ -101,7 +130,7 @@ public class Box {
     }//end setConnectorToParent
 
     public String toString() {
-        String str = "";
+        String str = getID();
 
         return str;
     }//end toString
