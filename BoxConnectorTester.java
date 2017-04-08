@@ -1,5 +1,9 @@
+import s17cs350task1.Connector;
+import s17cs350task1.Box;
+
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
+
 
 /**
  * Created by: bimpecoven

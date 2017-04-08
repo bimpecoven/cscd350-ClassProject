@@ -1,3 +1,5 @@
+package s17cs350task1;
+
 import javafx.geometry.Point2D;
 import javafx.geometry.Dimension2D;
 import java.util.*;
@@ -7,7 +9,7 @@ import java.util.List;
  * Created by: bimpecoven
  * Created on: 4/4/17.
  */
-public class Box implements Cloneable {
+ public class Box implements Cloneable {
 
     private String id;
     private Dimension2D size;
