@@ -75,6 +75,13 @@ import java.util.List;
         for (Connector c : this.childConnectors ) {
             childBoxes.add(c.getChildBox());
         }//end for
+
+        Collections.sort(childBoxes, new Comparator<Box>() {
+            @Override
+            public int compare(Box o1, Box o2) {
+                return Integer.parseInt(o1.getID()) - Integer.parseInt(o2.getID());
+            }
+        });
         return childBoxes;
     }//end getChildBoxes
 
@@ -98,6 +105,12 @@ import java.util.List;
                 descendantBoxes.addAll(c.getChildBox().getDescendantBoxes());
             }//end if
         }//end for
+        Collections.sort(descendantBoxes, new Comparator<Box>() {
+            @Override
+            public int compare(Box o1, Box o2) {
+                return Integer.parseInt(o1.getID()) - Integer.parseInt(o2.getID());
+            }
+        });
         return descendantBoxes;
     }//end getDescendantBoxes
 
