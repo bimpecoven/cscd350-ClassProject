@@ -6,8 +6,8 @@ import java.util.*;
 import java.util.List;
 
 /**
- * Created by: bimpecoven
- * Created on: 4/4/17.
+ * Created by: Impecoven, Blake
+ * Created on: 4/4/17
  */
  public class Box implements Cloneable {
 
@@ -79,7 +79,7 @@ import java.util.List;
         Collections.sort(childBoxes, new Comparator<Box>() {
             @Override
             public int compare(Box o1, Box o2) {
-                return Integer.parseInt(o1.getID()) - Integer.parseInt(o2.getID());
+                return o1.getID().compareTo(o2.getID());
             }
         });
         return childBoxes;
@@ -108,10 +108,12 @@ import java.util.List;
         Collections.sort(descendantBoxes, new Comparator<Box>() {
             @Override
             public int compare(Box o1, Box o2) {
-                return Integer.parseInt(o1.getID()) - Integer.parseInt(o2.getID());
+                return o1.getID().compareTo(o2.getID());
             }
         });
         return descendantBoxes;
+
+
     }//end getDescendantBoxes
 
     public String getID() {

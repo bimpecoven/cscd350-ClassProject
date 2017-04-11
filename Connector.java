@@ -3,8 +3,8 @@ package s17cs350task1;
 import javafx.geometry.Point2D;
 
 /**
- * Created by: bimpecoven
- * Created on: 4/4/17.
+ * Created by: Impecoven, Blake
+ * Created on: 4/4/17
  */
 public class Connector extends Object implements Cloneable {
 
