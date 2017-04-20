@@ -1,10 +1,6 @@
-import s17cs350task1.Box;
-import s17cs350task1.Connector;
+import s17cs350task1.*;
 
-
-import javafx.geometry.Dimension2D;
-import javafx.geometry.Point2D;
-
+import javafx.geometry.Point3D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,30 +14,33 @@ public class Tester
     public static void main(String [] args)throws CloneNotSupportedException
     {
         List<Box> boxes = new ArrayList<Box>();
-        Box a = new Box("a", new Dimension2D(3,5), true);
+        Box a = new Box("a", new Dimension3D(3,5,2), true);
         boxes.add(a);
-        Box a_b1 = new Box("a_b1", new Dimension2D(4,6));
+        Box a_b1 = new Box("a_b1", new Dimension3D(4,6,2));
         boxes.add(a_b1);
-        Box a_b2 = new Box("a_b2", new Dimension2D(8,7));
+        Box a_b2 = new Box("a_b2", new Dimension3D(8,7,2));
         boxes.add(a_b2);
-        Box a_b3 = new Box("a_b3", new Dimension2D(2,5));
+        Box a_b3 = new Box("a_b3", new Dimension3D(2,5,2));
         boxes.add(a_b3);
-        Box a_b3_c1 = new Box("a_b3_c1", new Dimension2D(2,5));
+        Box a_b3_c1 = new Box("a_b3_c1", new Dimension3D(2,5,2));
         boxes.add(a_b3_c1);
-        Box a_b3_c1_d1 = new Box("a_b3_c1_d1", new Dimension2D(2,5));
+        Box a_b3_c1_d1 = new Box("a_b3_c1_d1", new Dimension3D(2,5,2));
         boxes.add(a_b3_c1_d1);
-        Box a_b2_c1 = new Box("a_b2_c1", new Dimension2D(2,5));
+        Box a_b2_c1 = new Box("a_b2_c1", new Dimension3D(2,5,2));
         boxes.add(a_b2_c1);
-        Box a_b2_c2 = new Box("a_b2_c2", new Dimension2D(2,5));
+        Box a_b2_c2 = new Box("a_b2_c2", new Dimension3D(2,5,2));
         boxes.add(a_b2_c2);
 
-        a.connectChild(new Connector(a_b3, new Point2D(10,12)));
-        a.connectChild(new Connector(a_b1, new Point2D(-2,-15)));
-        a.connectChild(new Connector(a_b2, new Point2D(8, -23)));
-        a_b3.connectChild(new Connector(a_b3_c1, new Point2D(7,-8)));
-        a_b3_c1.connectChild(new Connector(a_b3_c1_d1, new Point2D(5, 1)));
-        a_b2.connectChild(new Connector(a_b2_c2, new Point2D(32, 10)));
-        a_b2.connectChild(new Connector(a_b2_c1, new Point2D(5,9)));
+        a_b1.connectChild(new Connector(a_b2, new Point3D(10,12,3)));
+        a_b2.connectChild(new Connector(a_b1, new Point3D(10,12,3)));
+
+        a.connectChild(new Connector(a_b3, new Point3D(10,12,3)));
+        a.connectChild(new Connector(a_b1, new Point3D(-2,-15,4)));
+        a.connectChild(new Connector(a_b2, new Point3D(8, -23,1)));
+        a_b3.connectChild(new Connector(a_b3_c1, new Point3D(7,-8,8)));
+        a_b3_c1.connectChild(new Connector(a_b3_c1_d1, new Point3D(5, 1,4)));
+        a_b2.connectChild(new Connector(a_b2_c2, new Point3D(32, 10,3)));
+        a_b2.connectChild(new Connector(a_b2_c1, new Point3D(5,9,6)));
 
 
         List<Box> BoxAChild = a.getChildBoxes();
@@ -138,5 +137,10 @@ public class Tester
             System.out.println("-----------------------------------");
             System.out.println();
         }
-    }
+
+        System.out.println("Test looped connection");
+//        boxes.get(6).connectChild(new Connector(a, new Point3D(10,12,3)));
+        System.out.println("Attempted parent: " + boxes.get(6) + " Attempted child: " + boxes.get(1));
+        boxes.get(6).connectChild(new Connector(boxes.get(1), new Point3D(10,12,3)));
+    }//end main
 }//end class
