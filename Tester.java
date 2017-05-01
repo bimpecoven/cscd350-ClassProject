@@ -31,9 +31,6 @@ public class Tester
         Box a_b2_c2 = new Box("a_b2_c2", new Dimension3D(2,5,2));
         boxes.add(a_b2_c2);
 
-        a_b1.connectChild(new Connector(a_b2, new Point3D(10,12,3)));
-        a_b2.connectChild(new Connector(a_b1, new Point3D(10,12,3)));
-
         a.connectChild(new Connector(a_b3, new Point3D(10,12,3)));
         a.connectChild(new Connector(a_b1, new Point3D(-2,-15,4)));
         a.connectChild(new Connector(a_b2, new Point3D(8, -23,1)));
@@ -41,7 +38,6 @@ public class Tester
         a_b3_c1.connectChild(new Connector(a_b3_c1_d1, new Point3D(5, 1,4)));
         a_b2.connectChild(new Connector(a_b2_c2, new Point3D(32, 10,3)));
         a_b2.connectChild(new Connector(a_b2_c1, new Point3D(5,9,6)));
-
 
         List<Box> BoxAChild = a.getChildBoxes();
         System.out.println("Box a children: [Should be a_b1, a_b2, and a_b3]: ");
@@ -141,6 +137,20 @@ public class Tester
         System.out.println("Test looped connection");
 //        boxes.get(6).connectChild(new Connector(a, new Point3D(10,12,3)));
         System.out.println("Attempted parent: " + boxes.get(6) + " Attempted child: " + boxes.get(1));
-        boxes.get(6).connectChild(new Connector(boxes.get(1), new Point3D(10,12,3)));
+
+        try {
+            a_b1.connectChild(new Connector(a_b2, new Point3D(10, 12, 3)));
+            a_b2.connectChild(new Connector(a_b1, new Point3D(10, 12, 3)));
+        }//end try
+        catch(TaskException e) {
+            System.out.println("Caught looping boxes attempt");
+        }//end catch
+
+        try {
+            boxes.get(6).connectChild(new Connector(boxes.get(1), new Point3D(10, 12, 3)));
+        }//end try
+        catch (TaskException e) {
+            System.out.println("Caught another attempt to loop boxes");
+        }//end catch
     }//end main
 }//end class
