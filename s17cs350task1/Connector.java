@@ -47,11 +47,21 @@ public class Connector extends Object implements Cloneable {
     }//end clone
 
     public Box getChildBox() {
-        return this.childBox;
+        if (this.childBox == null) {
+            throw new TaskException("Error - Child box is null.");
+        }//end if
+        else {
+            return this.childBox;
+        }//end else
     }//end getChildBox
 
     public Point3D getOffsetFromParentBox() {
-        return this.offsetFromParentBox;
+        if (this.offsetFromParentBox == null) {
+            throw new TaskException("Error - Offset is null.");
+        }//end if
+        else {
+            return this.offsetFromParentBox;
+        }//end else
     }//end getOffsetFromParentBox
 
     public Box getParentBox() {

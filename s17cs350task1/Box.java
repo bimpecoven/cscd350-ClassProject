@@ -1,5 +1,6 @@
 package s17cs350task1;
 
+import javafx.concurrent.Task;
 import javafx.geometry.Point3D;
 import java.util.*;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * Constructor pre conditions
  * connectChild(Connector): null parameter check
- *
+ * Null checks on all passed in params
 **/
 
  public class Box implements Cloneable {
@@ -102,26 +103,41 @@ import java.util.List;
     }//end getAbsoluteCenterPosition
 
     public int getChildBoxCount() {
-        return getChildBoxes().size();
+        if (this.childConnectors == null) {
+            throw new TaskException("Error - Child boxes not initialized.");
+        }//end if
+        else {
+            return getChildBoxes().size();
+        }//end
     }//end getChildBoxCount
 
     public List<Box> getChildBoxes() {
-        List<Box> childBoxes = new ArrayList<Box>();
-        for (Connector c : this.childConnectors) {
-            childBoxes.add(c.getChildBox());
-        }//end for
+        if (this.childConnectors == null) {
+            throw new TaskException("Error - Child boxes not initialized.");
+        }//end if
+        else {
+            List<Box> childBoxes = new ArrayList<Box>();
+            for (Connector c : this.childConnectors) {
+                childBoxes.add(c.getChildBox());
+            }//end for
 
-        Collections.sort(childBoxes, new Comparator<Box>() {
-            @Override
-            public int compare(Box o1, Box o2) {
-                return o1.getID().compareTo(o2.getID());
-            }
-        });
-        return childBoxes;
+            Collections.sort(childBoxes, new Comparator<Box>() {
+                @Override
+                public int compare(Box o1, Box o2) {
+                    return o1.getID().compareTo(o2.getID());
+                }
+            });
+            return childBoxes;
+        }//end else
     }//end getChildBoxes
 
     public List<Connector> getConnectorsToChildren() {
-        return this.childConnectors;
+        if (this.childConnectors == null) {
+            throw new TaskException("Error - Child box connectors not initialized.");
+        }//end if
+        else {
+            return this.childConnectors;
+        }//end else
     }//end getConnectorsToChildren
 
     public Connector getConnectorToParent() {
@@ -133,34 +149,51 @@ import java.util.List;
     }//end getConnectorToParent
 
     public int getDescendantBoxCount() {
+        if (this.childConnectors == null) {
+            throw new TaskException("Error - Child boxes not initialized.");
+        }//end if
+
         return getDescendantBoxes().size();
     }//end getDescendantBoxCount
 
     public List<Box> getDescendantBoxes() {
-        List<Box> descendantBoxes = new ArrayList<Box>();
-        for (Connector c : childConnectors) {
-            descendantBoxes.add(c.getChildBox());
-            if (c.getChildBox().getChildBoxCount() > 0) {
-                descendantBoxes.addAll(c.getChildBox().getDescendantBoxes());
-            }//end if
-        }//end for
-        Collections.sort(descendantBoxes, new Comparator<Box>() {
-            @Override
-            public int compare(Box o1, Box o2) {
-                return o1.getID().compareTo(o2.getID());
-            }
-        });
-        return descendantBoxes;
-
-
+        if(this.childConnectors == null) {
+            throw new TaskException("Error - Child boxes not initialized.");
+        }//end if
+        else {
+            List<Box> descendantBoxes = new ArrayList<Box>();
+            for (Connector c : this.childConnectors) {
+                descendantBoxes.add(c.getChildBox());
+                if (c.getChildBox().getChildBoxCount() > 0) {
+                    descendantBoxes.addAll(c.getChildBox().getDescendantBoxes());
+                }//end if
+            }//end for
+            Collections.sort(descendantBoxes, new Comparator<Box>() {
+                @Override
+                public int compare(Box o1, Box o2) {
+                    return o1.getID().compareTo(o2.getID());
+                }
+            });
+            return descendantBoxes;
+        }//end else
     }//end getDescendantBoxes
 
     public String getID() {
-        return this.id;
+        if (this.id == null) {
+            throw new TaskException("Error - ID is null.");
+        }//end if
+        else {
+            return this.id;
+        }//end else
     }//end getID
 
     public Dimension3D getSize() {
-        return this.size;
+        if (this.size == null) {
+            throw new TaskException("Error - Size is null.");
+        }//end if
+        else {
+            return this.size;
+        }//end else
     }//end getSize
 
     public boolean hasConnectorToParent() {
