@@ -1,7 +1,6 @@
 package s17cs350task1;
 
 import javafx.geometry.Point3D;
-
 import java.util.List;
 
 /**
@@ -74,8 +73,20 @@ public class Connector extends Object implements Cloneable {
     }//end hasParentBox
 
     public void setParentBox(Box parentBox) {
+        if (parentBox == null) {
+            throw new TaskException("Error - incoming parent is null.");
+        }//end if
+        if (childBox.isRoot()) {
+            throw new TaskException("Error - childBox is the root.");
+        }//end if
+        if (this.childBox.getDescendantBoxes().contains(parentBox)) {
+            throw new TaskException("Error - incoming parent is a child of the child.");
+        }//end if
+        if (this.parentBox != null) {
+            throw new TaskException("Error - Parent box already exists.");
+        }//end if
         if (!validID(parentBox, this.childBox)) {
-            throw new RuntimeException("Error - Box already exists with same ID.");
+            throw new TaskException("Error - Box already exists with same ID.");
         }//end if
 
         this.parentBox = parentBox;
@@ -106,7 +117,7 @@ public class Connector extends Object implements Cloneable {
 
         for (Box parent : parentDescendants) {
             for (Box child : childDescendants) {
-                if (parent.getID().equals(child.getID())) {
+                if (parent.getID().equalsIgnoreCase(child.getID())) {
                     return false;
                 }//end if
             }//end for

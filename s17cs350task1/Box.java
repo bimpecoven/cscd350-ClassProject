@@ -25,7 +25,7 @@ import java.util.List;
     private Connector parentConnector;
 
     public Box(String id, Dimension3D size) {
-        if (id.isEmpty()) {
+        if (id == null || id.isEmpty()) {
             throw new TaskException("Error - ID is empty/null.");
         }//end if
         if (size == null) {
@@ -40,12 +40,12 @@ import java.util.List;
     }//end constructor - NON ROOT
 
     public Box(String id, Dimension3D size, boolean isRoot) {
-        if (id.isEmpty()) {
+        if (id == null || id.isEmpty()) {
             throw new TaskException("Error - ID is empty.");
         }//end if
-//        if (!this.getAbsoluteCenterPosition().equals(new Point3D(0,0,0))) {
-//            throw new TaskException("Cannot be root. Not at (0, 0, 0).");
-//        }//end if
+        if (size == null) {
+            throw new TaskException("Error - Size is null.");
+        }//end if
 
         this.parentConnector = null;
         this.id = id;
@@ -220,7 +220,7 @@ import java.util.List;
 
         for (Box parent : parentDescendants) {
             for (Box child : childDescendants) {
-                if (parent.getID().equals(child.getID())) {
+                if (parent.getID().equalsIgnoreCase(child.getID())) {
                     return false;
                 }//end if
             }//end for
