@@ -17,7 +17,7 @@ import java.util.List;
  * Null checks on all passed in params
 **/
 
- public class Box implements Cloneable {
+public class Box implements Cloneable {
 
     private String id;
     private Dimension3D size;
@@ -267,5 +267,45 @@ import java.util.List;
 
         return true;
     }//end validID
+
+    public double NEW_calculateAreaAll(BoundingBox.E_Plane plane) {
+
+    }//end
+
+    public double NEW_calculateAreaSelf(BoundingBox.E_Plane plane) {
+
+    }//end
+
+    public Point3D NEW_calculateCenterOfMassAll(BoundingBox.E_Plane plane) {
+
+    }//end
+
+    public Point3D NEW_calculateCenterOfMassSelf(BoundingBox.E_Plane plane) {
+
+    }//end
+
+    public double NEW_calculateVolumeAll(BoundingBox.E_Plane plane) {
+
+    }//end
+
+    public double NEW_calculateVolumeSelf(BoundingBox.E_Plane plane) {
+
+    }//end
+
+    public BoundingBox NEW_generateBoundingBoxAll() {
+
+    }//end
+
+    public BoundingBox NEW_generateBoudingBoxSelf() {
+
+    }//end
+
+    public List<List<Point3D>> NEW_generateFramesAll() {
+
+    }//end
+
+    public List<Point3D> NEW_generateFramesSelf() {
+
+    }//end
 
 }//end Class
