@@ -24,6 +24,9 @@ public class Connector extends Object implements Cloneable {
         if (childBox == null) {
             throw new TaskException("Error - Child box is null.");
         }//end if
+        if (childBox.isRoot()) {
+            throw new TaskException("Error - Child box is a root.");
+        }//end if
         if (offsetFromParentBox == null) {
             throw new TaskException("Error - Offset is null.");
         }//end if
@@ -123,7 +126,7 @@ public class Connector extends Object implements Cloneable {
         List<Box> parentDescendants = root.getDescendantBoxes();
         parentDescendants.add(root);
         List<Box> childDescendants = childBox.getDescendantBoxes();
-
+        childDescendants.add(childBox);
 
         for (Box parent : parentDescendants) {
             for (Box child : childDescendants) {

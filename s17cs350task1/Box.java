@@ -136,7 +136,7 @@ import java.util.List;
             throw new TaskException("Error - Child box connectors not initialized.");
         }//end if
         else {
-            return this.childConnectors;
+            return new ArrayList<Connector>(this.childConnectors);
         }//end else
     }//end getConnectorsToChildren
 
@@ -144,16 +144,18 @@ import java.util.List;
         if (!this.hasConnectorToParent()) {
             throw new TaskException("Error - Box has no parent connector.");
         }//end if
-
-        return this.parentConnector;
+        else {
+            return this.parentConnector;
+        }//end else
     }//end getConnectorToParent
 
     public int getDescendantBoxCount() {
         if (this.childConnectors == null) {
             throw new TaskException("Error - Child boxes not initialized.");
         }//end if
-
-        return getDescendantBoxes().size();
+        else {
+            return getDescendantBoxes().size();
+        }//end else
     }//end getDescendantBoxCount
 
     public List<Box> getDescendantBoxes() {
@@ -218,6 +220,9 @@ import java.util.List;
         if (connector == null) {
             throw new TaskException("Error - Connector is null.");
         }//end if
+        if (this.hasConnectorToParent()) {
+            throw new TaskException("Error - Parent already set.");
+        }//end
 
         this.parentConnector = connector;
     }//end setConnectorToParent
@@ -249,6 +254,7 @@ import java.util.List;
         List<Box> parentDescendants = root.getDescendantBoxes();
         parentDescendants.add(root);
         List<Box> childDescendants = childBox.getDescendantBoxes();
+        childDescendants.add(childBox);
 
 
         for (Box parent : parentDescendants) {
